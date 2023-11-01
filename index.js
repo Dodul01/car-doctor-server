@@ -35,8 +35,6 @@ const verifyToken = async (req, res, next) => {
   })
 }
 
-
-
 const uri = process.env.DB_URI;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -57,7 +55,6 @@ async function run() {
     const servicesCollection = database.collection('services');
     const ordersCollection = database.collection('orders');
 
-
     // AUTH JWT
     app.post('/jwt', async (req, res) => {
       const user = req.body;
@@ -72,6 +69,11 @@ async function run() {
         .send({ success: true });
     })
 
+
+    app.post('/logout', async (req, res)=>{
+      const user = req.body;
+      res.clearCookie('token', {maxAge: 0}).send({success: true});
+    })
 
     // get all services
     app.get('/services', async (req, res) => {
